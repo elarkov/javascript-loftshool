@@ -35,9 +35,9 @@
         <span class='fraction'>4/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.97% </span>
+        <span class="strong">68.75% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>22/31</span>
+        <span class='fraction'>22/32</span>
       </div>
     </div>
     <p class="quiet">
@@ -145,7 +145,15 @@
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,22 +183,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,6 +237,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -237,6 +252,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -273,18 +289,21 @@ const homeworkContainer = document.querySelector('#homework-container');
    homeworkContainer.appendChild(newDiv);
  */
 function createDiv() {
+&nbsp;
+	//генератор случайного цвета
 	function generateColor() {
 		return '#' + Math.floor(Math.random()*16777215).toString(16);
 	}
 &nbsp;
-	let size = Math.floor(Math.random() * 100 + 50);
-	let posx = (Math.random() * (window.innerWidth - size)).toFixed();
-	let posy = (Math.random() * (window.innerHeight - size)).toFixed();
+	//размеры окна
+	let dimansion = Math.floor(Math.random() * 100 + 50);
+	let posx = (Math.random() * (window.innerWidth - dimansion)).toFixed();
+	let posy = (Math.random() * (window.innerHeight - dimansion)).toFixed();
 	let div = document.createElement('div');
-&nbsp;
+  
 	div.setAttribute('class', 'draggable-div');
-	div.style.height = size + 'px';
-	div.style.width = size + 'px';
+	div.style.height = dimansion + 'px';
+	div.style.width = dimansion + 'px';
 	div.style.backgroundColor = generateColor().toString();
 	div.style.left = posx + 'px';
 	div.style.top = posy + 'px';
@@ -301,13 +320,14 @@ function createDiv() {
    addListeners(newDiv);
  */
 function addListeners(target) {
+&nbsp;
 	let dragStartX;
 	let dragStartY;
 	let objInitLeft;
 	let objInitTop;
 	let inDrag = false;
 &nbsp;
-	target.addEventListener('mousedown', <span class="fstat-no" title="function not covered" >e </span>=&gt; {
+	target.addEventListener('mousedown', <span class="fstat-no" title="function not covered" >fu</span>nction(e){
 <span class="cstat-no" title="statement not covered" >		inDrag = true;</span>
 <span class="cstat-no" title="statement not covered" >		objInitLeft = target.offsetLeft;</span>
 <span class="cstat-no" title="statement not covered" >		objInitTop = target.offsetTop;</span>
@@ -315,7 +335,7 @@ function addListeners(target) {
 <span class="cstat-no" title="statement not covered" >		dragStartY = e.pageY;</span>
 	});
 &nbsp;
-	target.addEventListener('mousemove', <span class="fstat-no" title="function not covered" >e </span>=&gt; {
+	target.addEventListener('mousemove', <span class="fstat-no" title="function not covered" >fu</span>nction(e){
 <span class="cstat-no" title="statement not covered" >		if(!inDrag) {</span>
 <span class="cstat-no" title="statement not covered" >			return;</span>
 		}
@@ -323,7 +343,10 @@ function addListeners(target) {
 <span class="cstat-no" title="statement not covered" >		target.style.top = (objInitTop + e.pageY - dragStartY) + 'px';</span>
 	});
 &nbsp;
-	target.addEventListener('mouseup', <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >inDrag = false)</span>;
+	target.addEventListener('mouseup', <span class="fstat-no" title="function not covered" >fu</span>nction() {
+<span class="cstat-no" title="statement not covered" >		inDrag = false;</span>
+	});
+&nbsp;
 }
 &nbsp;
 let addDivButton = homeworkContainer.querySelector('#addDiv');
@@ -340,6 +363,7 @@ addDivButton.addEventListener('click', function() {
     // или использовать HTML5 D&amp;D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
 });
 &nbsp;
+&nbsp;
 export {
     createDiv
 };
@@ -349,7 +373,7 @@ export {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun May 13 2018 10:28:03 GMT+0700 (+07)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue May 15 2018 10:27:48 GMT+0700 (+07)
 </div>
 </div>
 <script src="prettify.js"></script>

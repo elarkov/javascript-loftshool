@@ -34,14 +34,14 @@ function createDiv() {
 	}
 
 	//размеры окна
-	let size = Math.floor(Math.random() * 100 + 50);
-	let posx = (Math.random() * (window.innerWidth - size)).toFixed();
-	let posy = (Math.random() * (window.innerHeight - size)).toFixed();
+	let dimansion = Math.floor(Math.random() * 100 + 50);
+	let posx = (Math.random() * (window.innerWidth - dimansion)).toFixed();
+	let posy = (Math.random() * (window.innerHeight - dimansion)).toFixed();
 	let div = document.createElement('div');
   
 	div.setAttribute('class', 'draggable-div');
-	div.style.height = size + 'px';
-	div.style.width = size + 'px';
+	div.style.height = dimansion + 'px';
+	div.style.width = dimansion + 'px';
 	div.style.backgroundColor = generateColor().toString();
 	div.style.left = posx + 'px';
 	div.style.top = posy + 'px';
@@ -65,7 +65,7 @@ function addListeners(target) {
 	let objInitTop;
 	let inDrag = false;
 
-	target.addEventListener('mousedown', e => {
+	target.addEventListener('mousedown', function(e){
 		inDrag = true;
 		objInitLeft = target.offsetLeft;
 		objInitTop = target.offsetTop;
@@ -73,7 +73,7 @@ function addListeners(target) {
 		dragStartY = e.pageY;
 	});
 
-	target.addEventListener('mousemove', e => {
+	target.addEventListener('mousemove', function(e){
 		if(!inDrag) {
 			return;
 		}
@@ -81,7 +81,10 @@ function addListeners(target) {
 		target.style.top = (objInitTop + e.pageY - dragStartY) + 'px';
 	});
 
-	target.addEventListener('mouseup', () => inDrag = false);
+	target.addEventListener('mouseup', function() {
+		inDrag = false;
+	});
+
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
@@ -97,6 +100,7 @@ addDivButton.addEventListener('click', function() {
     // можно не назначать обработчики событий каждому div в отдельности, а использовать делегирование
     // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
 });
+
 
 export {
     createDiv
