@@ -16,7 +16,6 @@ FNDA:6,loadAndSortTowns
 FNDA:6,(anonymous_4)
 FNDA:6,(anonymous_5)
 FNDA:1404,(anonymous_6)
-DA:12,2
 DA:13,2
 DA:14,2
 DA:33,6
@@ -31,8 +30,8 @@ DA:41,798
 DA:43,606
 DA:44,606
 DA:46,0
-LF:15
-LH:14
+LF:14
+LH:13
 BRDA:40,0,0,798
 BRDA:40,0,1,606
 BRDA:43,1,0,606

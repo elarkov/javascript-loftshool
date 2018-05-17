@@ -38,7 +38,7 @@ const homeworkContainer = document.querySelector('#homework-container');
  */
 function loadTowns() {
 	loadingBlock.textContent = 'Введите город проживания';
-	return require('./index').loadAndSortTowns('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
+	return require('./index').loadAndSortTowns();
 }
 
 /*
