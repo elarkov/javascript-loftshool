@@ -67,7 +67,7 @@ function doTableCookie(name, value){
 }
 
 function createCookie(name, value){
-	document.cookie = name + '=' + value;
+	document.cookie = `${name} '=' ${value}`;
 }
 
 function isMatching(full, chunk) {
@@ -97,7 +97,7 @@ function updateCookie(cookies){
 }
 
 function deleteCookie(name){
-	return document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	return document.cookie = `${name} =;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
 filterNameInput.addEventListener('keyup', function() {
