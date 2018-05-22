@@ -67,7 +67,7 @@ function doTableCookie(name, value){
 }
 
 function createCookie(name, value){
-	document.cookie = `${name} '=' ${value}`;
+	document.cookie = `${name} = ${value}`;
 }
 
 function isMatching(full, chunk) {
