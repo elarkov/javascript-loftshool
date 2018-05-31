@@ -14,7 +14,16 @@ rules.push({
 });
 
 module.exports = {
+<<<<<<< Updated upstream
     entry: './src/index.js',
+=======
+    entry: {
+        cookie: './src/index.js'
+    },
+    devServer: {
+        index: 'index.html'
+    },
+>>>>>>> Stashed changes
     output: {
         filename: '[name].[hash].js',
         path: path.resolve('dist')
@@ -31,8 +40,15 @@ module.exports = {
         }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
+<<<<<<< Updated upstream
             title: 'Loft School sample project',
             template: 'index.hbs'
+=======
+            title: 'Friendsfilter',
+            template: 'index.hbs',
+            filename: 'index.html',
+            chunks: ['index']
+>>>>>>> Stashed changes
         }),
         new CleanWebpackPlugin(['dist'])
     ]
