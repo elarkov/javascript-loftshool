@@ -6,24 +6,20 @@ let rules = require('./webpack.config.rules')();
 let path = require('path');
 
 rules.push({
-    test: /\.css$/,
+    test: /\.scss$/,
     use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: 'css-loader'
+        use: ['css-loader', 'sass-loader']
     })
 });
 
 module.exports = {
-<<<<<<< Updated upstream
-    entry: './src/index.js',
-=======
     entry: {
-        cookie: './src/index.js'
+        index: './src/index.js'
     },
     devServer: {
         index: 'index.html'
     },
->>>>>>> Stashed changes
     output: {
         filename: '[name].[hash].js',
         path: path.resolve('dist')
@@ -40,15 +36,10 @@ module.exports = {
         }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-<<<<<<< Updated upstream
-            title: 'Loft School sample project',
-            template: 'index.hbs'
-=======
-            title: 'Friendsfilter',
+            title: 'Friend Filter',
             template: 'index.hbs',
             filename: 'index.html',
             chunks: ['index']
->>>>>>> Stashed changes
         }),
         new CleanWebpackPlugin(['dist'])
     ]
