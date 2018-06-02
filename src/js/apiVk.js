@@ -1,7 +1,7 @@
 /*=== Handlebars template ===*/
 import render from '../../src/templates/friends.hbs';
 
-export default function initApivk(){
+export default function initApiVk(){
 
     /* подключаем API vk.com */
     function initVK() {

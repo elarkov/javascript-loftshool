@@ -1,4 +1,4 @@
-export default function initDnd() {
+function initDnd() {
 
     /* реализация Drag and Drop слева на право */
     function dragStart(ev) { //функция обработки старта события
@@ -64,5 +64,10 @@ export default function initDnd() {
         ev.stopPropagation();
         return false;
     }
+
+}
+
+export {
+    initDnd
 }
 
