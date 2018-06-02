@@ -6,6 +6,14 @@ let rules = require('./webpack.config.rules')();
 let path = require('path');
 
 rules.push({
+    test: /\.css$/,
+    use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader'
+    })
+});
+
+rules.push({
     test: /\.scss$/,
     use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
@@ -36,7 +44,7 @@ module.exports = {
         }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'Friend Filter',
+            title: 'Другофильтр',
             template: 'index.hbs',
             filename: 'index.html',
             chunks: ['index']

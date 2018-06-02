@@ -7,7 +7,7 @@ export default function initAddDelBtn(){
     friendsList.addEventListener('click', function(e){
         if(e.target.getAttribute('class') === 'list__plus'){
             e.target.setAttribute('class', 'list__close');
-            e.target.setAttribute('src', 'img/close.png');
+            e.target.setAttribute('src', './src/images/close.png');
             friendsSelected.appendChild(e.target.parentNode);
         }
     });
@@ -15,7 +15,7 @@ export default function initAddDelBtn(){
     friendsSelected.addEventListener('click', function(e){
         if(e.target.getAttribute('class') === 'list__close'){
             e.target.setAttribute('class', 'list__plus');
-            e.target.setAttribute('src', 'img/plus.png');
+            e.target.setAttribute('src', './src/images/plus.png');
             friendsList.appendChild(e.target.parentNode);
         }
     });

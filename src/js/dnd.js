@@ -1,10 +1,10 @@
-export default function initDnd(){
+export default function initDnd() {
 
     /* реализация Drag and Drop слева на право */
     function dragStart(ev) { //функция обработки старта события
         ev.dataTransfer.effectAllowed = 'move';
         ev.dataTransfer.setData('Text', ev.target.getAttribute('id'));
-        ev.dataTransfer.setDragImage(ev.target,135,22);
+        ev.dataTransfer.setDragImage(ev.target, 135, 22);
         return true;
     }
 
@@ -26,7 +26,7 @@ export default function initDnd(){
 
         ev.target.classList.contains('js-yourfriends');
         lastElem.setAttribute('class', 'list__plus');
-        lastElem.setAttribute('src', 'img/plus.png');
+        lastElem.setAttribute('src', 'images/plus.png');
 
         ev.currentTarget.appendChild(document.getElementById(data));
 
@@ -38,7 +38,7 @@ export default function initDnd(){
     function dragstart(ev) {
         ev.dataTransfer.effectAllowed = 'move';
         ev.dataTransfer.setData('Text', ev.target.getAttribute('id'));
-        ev.dataTransfer.setDragImage(ev.target,135,22);
+        ev.dataTransfer.setDragImage(ev.target, 135, 22);
         return true;
     }
 
@@ -57,12 +57,12 @@ export default function initDnd(){
 
         ev.target.classList.contains('js-friendslist');
         lastElem.setAttribute('class', 'list__close');
-        lastElem.setAttribute('src', 'img/close.png');
+        lastElem.setAttribute('src', 'images/close.png');
 
         ev.currentTarget.appendChild(document.getElementById(data));
 
         ev.stopPropagation();
         return false;
     }
-
 }
+
