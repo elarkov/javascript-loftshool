@@ -17,7 +17,7 @@ rules.push({
     test: /\.scss$/,
     use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: ['css-loader', 'sass-loader']
+        use: ['css-loader?url=false', 'sass-loader']
     })
 });
 
@@ -29,7 +29,7 @@ module.exports = {
         index: 'index.html'
     },
     output: {
-        filename: '[name].[hash].js',
+        filename: 'js/bundle.js',
         path: path.resolve('dist')
     },
     devtool: 'source-map',
@@ -42,7 +42,7 @@ module.exports = {
                 warnings: false
             }
         }),
-        new ExtractTextPlugin('styles.css'),
+        new ExtractTextPlugin('./css/styles.css'),
         new HtmlPlugin({
             title: 'Другофильтр',
             template: 'index.hbs',

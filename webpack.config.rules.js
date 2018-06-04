@@ -11,10 +11,7 @@ module.exports = function() {
         },
         {
             test: /\.(jpe?g|png|gif|svg|)$/i,
-            loader: 'file-loader',
-            options: {
-                name: 'images/[name].[ext]',
-            },
+            loader: 'file-loader?name=images/[name].[ext]',
         },
         {
             test: /\.(eot|svg|ttf|woff|woff2)$/,

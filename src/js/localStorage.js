@@ -1,4 +1,4 @@
-export default function initLocalStorage(){
+function initLocalStorage(){
 
     /* сохраняем списки друзей в localStorage */
     const btnSave = document.querySelector('.button');
@@ -15,5 +15,9 @@ export default function initLocalStorage(){
         storage.data = JSON.stringify(objSelectedFriends);
         alert('Сохранено');
     });
+}
 
+
+export {
+    initLocalStorage
 }

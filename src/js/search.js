@@ -1,4 +1,4 @@
-export default function initSearch(){
+function initSearch(){
 
     /* поиск по спискам друзей */
     const searchLeft = document.querySelector('.form-search__input_left'),
@@ -38,4 +38,9 @@ export default function initSearch(){
         }
     }
 
+}
+
+
+export {
+    initSearch
 }

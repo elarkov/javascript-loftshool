@@ -1,4 +1,4 @@
-export default function initAddDelBtn(){
+function initAddDelBtn(){
 
     const friendsList = document.querySelector('.js-yourfriends'),
         friendsSelected = document.querySelector('.js-friendslist');
@@ -7,7 +7,7 @@ export default function initAddDelBtn(){
     friendsList.addEventListener('click', function(e){
         if(e.target.getAttribute('class') === 'list__plus'){
             e.target.setAttribute('class', 'list__close');
-            e.target.setAttribute('src', './src/images/close.png');
+            e.target.setAttribute('src', './src/img/close.png');
             friendsSelected.appendChild(e.target.parentNode);
         }
     });
@@ -15,9 +15,14 @@ export default function initAddDelBtn(){
     friendsSelected.addEventListener('click', function(e){
         if(e.target.getAttribute('class') === 'list__close'){
             e.target.setAttribute('class', 'list__plus');
-            e.target.setAttribute('src', './src/images/plus.png');
+            e.target.setAttribute('src', './src/img/plus.png');
             friendsList.appendChild(e.target.parentNode);
         }
     });
 
+}
+
+
+export {
+    initAddDelBtn
 }

@@ -1,7 +1,7 @@
 /*=== Handlebars template ===*/
 import render from '../../src/templates/friends.hbs';
 
-export default function initApiVk(){
+function initApiVk(){
 
     /* подключаем API vk.com */
     function initVK() {
@@ -69,11 +69,16 @@ new Promise(resolve => window.onload = resolve)
 
             const result = document.getElementById(arraySelectItem[prop]);
             result.lastElementChild.setAttribute('class', 'list__close');
-            result.lastElementChild.setAttribute('src', './src/images/close.png');
+            result.lastElementChild.setAttribute('src', './src/img/close.png');
 
             friendsSelected.appendChild(result);
         }
 
     })
     .catch(e => alert('Ошибка: ' + e.message));
+}
+
+
+export {
+    initApiVk
 }

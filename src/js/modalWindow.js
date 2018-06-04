@@ -1,4 +1,4 @@
-export default function initModalWindow(){
+function initModalWindow(){
 
     let logoClick = document.querySelector('.js-logo'),
         modal = document.querySelector('.js-modal'),
@@ -12,4 +12,9 @@ export default function initModalWindow(){
         modal.style.display = 'none';
     });
 
+}
+
+
+export {
+    initModalWindow
 }
