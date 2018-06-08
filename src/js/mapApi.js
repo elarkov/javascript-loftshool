@@ -1,22 +1,20 @@
-function initMapApi(){
+import { formTestimonial } from "./formTestimonial";
+import { btnClose } from "./btnClose";
+
+
+
+var myMap;
+let popupForm;
+let map = document.querySelector('#map');
+let places = [];
+
+
+
+
+function initMapApi() {
 
   /*=== инициализация яндекс карты ===*/
   ymaps.ready(init);
-
-  /*=== сохраняем информацию о метках ===*/
-  const saveCounter = (function() {
-
-    let count = sessionStorage.getItem('counter') || 0;
-
-    return function (item) {
-      sessionStorage.setItem(count, item);
-      count++;
-      sessionStorage.setItem('counter', count)
-    }
-
-  })();
-
-
 
   function init(ymaps){
 
@@ -25,31 +23,39 @@ function initMapApi(){
       zoom: 7
     });
 
-    var myMap;
-    let popupForm;
-    let map = document.querySelector('#map');
-    let places = [];
+      // Создаем собственный макет с инфой о выбранном геообъекте.
+      let customItemContentLayout = ymaps.templateLayoutFactory.createClass(
+        // Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
+        '<div class=ballon_body>{{ properties.balloonContent|raw }}</div>' +
+        '<a id=ballon_header>{{ properties.balloonContentHeader|raw }}</a>');
 
-    // Создаем собственный макет с инфой о выбранном геообъекте.
-    let customItemContentLayout = ymaps.templateLayoutFactory.createClass(
-      // Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
-      '<div class=ballon_body>{{ properties.balloonContent|raw }}</div>' +
-      '<a id=ballon_header>{{ properties.balloonContentHeader|raw }}</a>');
+      /*=== создание кластеризатора ===*/
+      var clusterer = new ymaps.Clusterer({
+        clusterDisableClickZoom: true,
+        clusterOpenBalloonOnClick: true,
+        clusterBalloonContentLayout: 'cluster#balloonCarousel',
+        clusterBalloonItemContentLayout: customItemContentLayout,
+        clusterBalloonPanelMaxMapArea: 0,
+        clusterBalloonContentLayoutWidth: 200,
+        clusterBalloonContentLayoutHeight: 130,
+        clusterBalloonPagerSize: 3,
+        groupByCoordinates: false
+      });
 
-    /*=== создание кластеризатора ===*/
-    let clusterer = new ymaps.Clusterer({
-      clusterDisableClickZoom: true,
-      clusterOpenBalloonOnClick: true,
-      clusterBalloonContentLayout: 'cluster#balloonCarousel',
-      clusterBalloonItemContentLayout: customItemContentLayout,
-      clusterBalloonPanelMaxMapArea: 0,
-      clusterBalloonContentLayoutWidth: 200,
-      clusterBalloonContentLayoutHeight: 130,
-      clusterBalloonPagerSize: 3,
-      groupByCoordinates: false
-    });
+    /*=== сохраняем информацию о метках ===*/
+    const saveCounter = (function(){
 
-    /*=== Достаем то, что сохранили в sessionStorage ===*/
+      let count = sessionStorage.getItem('counter') || 0;
+
+      return function (item) {
+        sessionStorage.setItem(count, item);
+        count++;
+        sessionStorage.setItem('counter', count)
+      }
+
+    })();
+
+    /*=== достаем то, что сохранили в sessionStorage ===*/
     if (sessionStorage.getItem('0')) {
       for (let i = 0; i < sessionStorage.length - 2; i++) {
         let el = sessionStorage.getItem(i).split(',');
@@ -69,31 +75,6 @@ function initMapApi(){
       }
     }
 
-    /*=== выводим форму заполнения отзыва ===*/
-    function formTestimonial(res) {
-
-      return `<div class="popup-header">
-                <img class="popup-header__icon" src="../../src/img/location.svg" alt="location-icon">
-                <span class="popup-header__title">${res}</span>
-                <span class="close"><img class="close__btn" src="../../src/img/btn-close.png" alt=""></span>
-              </div>
-                <div class="popup-content__post"></div>
-                <div class="popup-content">
-                <div class="forma-header">Ваш отзыв</div>
-                <div class="forma__row">
-                  <input placeholder="Ваше имя" class="forma__input" type="text" name="user_name"/>
-                </div>
-                <div class="forma__row">
-                  <input placeholder="Укажите место" class="forma__input" type="text" name="user_place"/>
-                </div>
-                <div class="forma__row">
-                  <textarea class="forma__msg" placeholder="Поделитесь вашими впечатлениями" name="user_feedback"/></textarea>
-                </div>
-                <div class="forma__button">
-                  <input class="button" type="submit" value="Добавить" />
-                </div></div>`;
-    }
-
     function feedback(res, ev, data) {
 
       if (map.children[1]) {
@@ -105,37 +86,30 @@ function initMapApi(){
       popupForm.setAttribute('style', `left: ${ev.get('pagePixels')[0]}px; top: ${ev.get('pagePixels')[1]}px;`);
       popupForm.innerHTML = formTestimonial(res);
 
-      /*=== Отображаем блок с данными на карте ===*/
       let posts = popupForm.children[1];
 
       posts.innerHTML = data;
       map.appendChild(popupForm);
 
-      /*=== Вешаем событие клика на кнопку с крестиком ===*/
-      let btnClose = document.querySelector('.close');
-      btnClose.addEventListener('click', function () {
-        map.removeChild(popupForm);
-      });
+      btnClose();
 
-      /*=== Вешаем событие клика на кнопку "Добавить" ===*/
       let btnAdd = document.querySelector('.button');
 
-        btnAdd.addEventListener('click', function() {
+      btnAdd.addEventListener('click', function () {
 
         let posts = popupForm.children[1];
         let post = document.createElement('div');
 
-        if (posts.childNodes[0].textContent === 'Не одного отзыва еще не было оставлено...') {
+        if (posts.childNodes[0].textContent === 'Ни одного отзыва еще не было оставлено.') {
           posts.innerHTML = '';
         }
 
         popupForm.setAttribute('id', 'post');
 
-        /*=== Код из песочницы яндекс карты ===*/
         post.innerHTML = `<span class="popup-content__span">${$('input[name="user_name"]').val()}</span> 
-                          <span class="popup-content__date">${$('input[name="user_place"]').val()}</span>
-                          <span class="popup-content__date">${new Date().toISOString().slice(0, 10)}</span>
-                          <div class="popup-content__msg">${$('textarea[name="user_feedback"]').val()}</div>`;
+                            <span class="popup-content__date">${$('input[name="user_place"]').val()}</span>
+                            <span class="popup-content__date">${new Date().toISOString().slice(0, 10)}</span>
+                            <div class="popup-content__msg">${$('textarea[name="user_feedback"]').val()}</div>`;
         posts.appendChild(post);
 
 
@@ -147,26 +121,29 @@ function initMapApi(){
         });
 
         saveCounter([place.geometry._coordinates,
-                     place.properties._data.ballonContent,
-                     place.properties._data.ballonContentHeader]);
+          place.properties._data.ballonContent,
+          place.properties._data.ballonContentHeader]);
 
         places.push(place);
         clusterer.add(places);
         myMap.geoObjects.add(clusterer);
+
       });
     }
 
-    /*=== Вешаем событие клика по карте ===*/
-    myMap.events.add('click', function(ev) {
+    /*=== вешаем событие клика по карте ===*/
+    myMap.events.add('click', function (ev) {
       let coords = ev.get('coords');
 
-      ymaps.geocode(coords).then(function(res) {
-        feedback(res.geoObjects.get(0).properties._data.name, ev, 'Не одного отзыва еще не было оставлено. Будь те первыми...');
+      ymaps.geocode(coords).then(function (res) {
+        feedback(res.geoObjects.get(0).properties._data.name, ev, 'Ни одного отзыва еще не было оставлено.');
       })
     });
 
-    /*=== Вешаем событие клика по геообъекту ===*/
-    myMap.geoObjects.events.add('click', function(ev) {
+
+
+    /*=== вешаем событие клика по геообъекту ===*/
+    myMap.geoObjects.events.add('click', function (ev) {
 
       let coords = ev.get('coords');
       let data = ev.get('target').properties._data.ballonContent;
@@ -175,7 +152,7 @@ function initMapApi(){
       /*=== Проверка на то, что это не является кластаризатором ===*/
       if (!ev.get('target')._clusterListeners) {
 
-        ymaps.geocode(coords).then(function(res) {
+        ymaps.geocode(coords).then(function (res) {
           feedback(res.geoObjects.get(0).properties._data.name, ev, data)
         });
 
@@ -203,5 +180,6 @@ function initMapApi(){
 
 
 export {
-  initMapApi
+  initMapApi,
+  popupForm
 }
