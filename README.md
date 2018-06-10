@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## LoftSchool example project
 
 ### Доступные команды
@@ -10,5 +9,5 @@
 * `npm run start` - запустить встроенный сервер и следить за изменениями файлов
 * `npm run build` - собрать проект в папку `build`
 =======
-# javascript-loftshool
->>>>>>> 6c1ab0f7ce472fe4f93ee0df0d9590d53958f261
+# Курс комплексное обучение JavaScrip.
+
