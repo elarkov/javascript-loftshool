@@ -1,4 +1,3 @@
-@import "../layout/fonts";
 @import "../config/variable.scss";
 
 html, body {
@@ -226,4 +225,15 @@ ul {
 .forma__button {
   display: flex;
   justify-content: flex-end;
+}
+
+#ballon_header {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.ballon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }

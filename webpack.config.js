@@ -4,6 +4,7 @@ let CleanWebpackPlugin = require('clean-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let rules = require('./webpack.config.rules')();
 let path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 rules.push({
   test: /\.css$/,
@@ -23,6 +24,7 @@ rules.push({
 
 
 module.exports = {
+
   entry: {
     index: './src/index.js'
   },
@@ -50,6 +52,12 @@ module.exports = {
           filename: 'index.html',
           chunks: ['index']
       }),
-      new CleanWebpackPlugin(['dist'])
+      new CleanWebpackPlugin(['dist']),
+      new CopyWebpackPlugin([
+        {
+          from: './src/img/',
+          to: 'img'
+        }
+      ])
   ]
 };

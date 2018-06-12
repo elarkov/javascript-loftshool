@@ -1,15 +1,10 @@
 import { formTestimonial } from "./formTestimonial";
 import { btnClose } from "./btnClose";
+import { moveForm } from "./moveForm";
 
 
 
-var myMap;
 let popupForm;
-let map = document.querySelector('#map');
-let places = [];
-
-
-
 
 function initMapApi() {
 
@@ -19,15 +14,20 @@ function initMapApi() {
   function init(ymaps){
 
     myMap = new ymaps.Map("map", {
-      center: [55.76, 37.64],
-      zoom: 7
+      center: [55.0084, 82.9357],
+      zoom: 13
     });
 
+    var myMap;
+    let map = document.querySelector('#map');
+    let places = [];
+
+
       // Создаем собственный макет с инфой о выбранном геообъекте.
-      let customItemContentLayout = ymaps.templateLayoutFactory.createClass(
-        // Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
-        '<div class=ballon_body>{{ properties.balloonContent|raw }}</div>' +
-        '<a id=ballon_header>{{ properties.balloonContentHeader|raw }}</a>');
+    let customItemContentLayout = ymaps.templateLayoutFactory.createClass(
+      // Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
+      '<div class="ballon"><a id=ballon_header>{{ properties.balloonContentHeader|raw }}</a>' +
+      '<div class=ballon_body>{{ properties.balloonContent|raw }}</div></div>');
 
       /*=== создание кластеризатора ===*/
       var clusterer = new ymaps.Clusterer({
@@ -63,8 +63,8 @@ function initMapApi() {
         let place = new ymaps.Placemark([
           el[0], el[1]
         ],{
-          ballonContentHeader: el[3],
-          ballonContent: el[2]
+          balloonContentHeader: el[3],
+          balloonContent: el[2]
         }, {
           openBalloonOnClick: false
         });
@@ -95,9 +95,11 @@ function initMapApi() {
 
       let btnAdd = document.querySelector('.button');
 
-      btnAdd.addEventListener('click', function () {
+      btnAdd.addEventListener('click', function (e) {
+        e.preventDefault();
 
         let posts = popupForm.children[1];
+
         let post = document.createElement('div');
 
         if (posts.childNodes[0].textContent === 'Ни одного отзыва еще не было оставлено.') {
@@ -107,28 +109,30 @@ function initMapApi() {
         popupForm.setAttribute('id', 'post');
 
         post.innerHTML = `<span class="popup-content__span">${$('input[name="user_name"]').val()}</span> 
-                            <span class="popup-content__date">${$('input[name="user_place"]').val()}</span>
-                            <span class="popup-content__date">${new Date().toISOString().slice(0, 10)}</span>
-                            <div class="popup-content__msg">${$('textarea[name="user_feedback"]').val()}</div>`;
+                          <span class="popup-content__date">${$('input[name="user_place"]').val()}</span>
+                          <span class="popup-content__date">${new Date().toISOString().slice(0, 10)}</span>
+                          <div class="popup-content__msg">${$('textarea[name="user_feedback"]').val()}</div>`;
         posts.appendChild(post);
+        document.querySelector('.popup-content').reset();
 
 
         let place = new ymaps.Placemark(ev.get('coords'), {
-          ballonContentHeader: res,
-          ballonContent: post.innerHTML
+          balloonContentHeader: res,
+          balloonContent: post.innerHTML
         }, {
           openBalloonOnClick: false
         });
 
         saveCounter([place.geometry._coordinates,
-          place.properties._data.ballonContent,
-          place.properties._data.ballonContentHeader]);
+          place.properties._data.balloonContent,
+          place.properties._data.balloonContentHeader]);
 
-        places.push(place);
-        clusterer.add(places);
-        myMap.geoObjects.add(clusterer);
+          places.push(place);
+          clusterer.add(places);
+          myMap.geoObjects.add(clusterer);
 
       });
+      moveForm(popupForm);
     }
 
     /*=== вешаем событие клика по карте ===*/
@@ -146,13 +150,13 @@ function initMapApi() {
     myMap.geoObjects.events.add('click', function (ev) {
 
       let coords = ev.get('coords');
-      let data = ev.get('target').properties._data.ballonContent;
+      let data = ev.get('target').properties._data.balloonContent;
       let items = ev.get('target').properties.get('geoObjects');
 
       /*=== Проверка на то, что это не является кластаризатором ===*/
       if (!ev.get('target')._clusterListeners) {
 
-        ymaps.geocode(coords).then(function (res) {
+        ymaps.geocode(coords).then(function(res) {
           feedback(res.geoObjects.get(0).properties._data.name, ev, data)
         });
 
@@ -162,10 +166,10 @@ function initMapApi() {
           let result = '';
 
           for (let i = 0; i < items.length; i++) {
-            result = result + items[i].properties._data.ballonContent;
+            result = result + items[i].properties._data.balloonContent;
           }
 
-          document.getElementsByTagName('body')[0].addEventListener('click', function (event) {
+          document.getElementsByTagName('body')[0].addEventListener('click', function(event) {
 
             if (event.target.id === "ballon_header") {
               myMap.balloon.close();
