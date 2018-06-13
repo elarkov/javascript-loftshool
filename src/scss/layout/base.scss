@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,500&subset=cyrillic');
 @import "../config/variable.scss";
 
 html, body {
@@ -110,6 +111,8 @@ ul {
   position: absolute;
   width: 380px;
   background-color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .popup-header {

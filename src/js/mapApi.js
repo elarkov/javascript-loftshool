@@ -4,7 +4,6 @@ import { moveForm } from "./moveForm";
 
 let popupForm;
 
-
 function initMapApi() {
 
   /*=== инициализация яндекс карты ===*/
@@ -12,7 +11,6 @@ function initMapApi() {
 
   /*=== сохраняем информацию о метках ===*/
   const saveCounter = (function(){
-
     let count = sessionStorage.getItem('counter') || 0;
 
     return function (item) {
@@ -22,6 +20,7 @@ function initMapApi() {
     }
 
   })();
+
 
   function init(ymaps){
 
@@ -33,7 +32,6 @@ function initMapApi() {
     var myMap;
     let map = document.querySelector('#map');
     let places = [];
-
 
       // Создаем собственный макет с инфой о выбранном геообъекте.
     let customItemContentLayout = ymaps.templateLayoutFactory.createClass(
@@ -116,8 +114,6 @@ function initMapApi() {
         posts.appendChild(post);
         document.querySelector('.popup-content').reset();
 
-
-
         let place = new ymaps.Placemark(ev.get('coords'), {
           balloonContentHeader: res,
           balloonContent: post.innerHTML
@@ -128,7 +124,6 @@ function initMapApi() {
         saveCounter([place.geometry._coordinates,
           place.properties._data.balloonContent,
           place.properties._data.balloonContentHeader]);
-
 
         places.push(place);
         clusterer.add(places);
@@ -170,7 +165,6 @@ function initMapApi() {
         }
       }
     });
-
 
     /*=== вешаем событие клика по карте ===*/
     myMap.events.add('click', function (ev) {
