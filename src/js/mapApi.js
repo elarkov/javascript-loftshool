@@ -2,14 +2,26 @@ import { formTestimonial } from "./formTestimonial";
 import { btnClose } from "./btnClose";
 import { moveForm } from "./moveForm";
 
-
-
 let popupForm;
+
 
 function initMapApi() {
 
   /*=== инициализация яндекс карты ===*/
   ymaps.ready(init);
+
+  /*=== сохраняем информацию о метках ===*/
+  const saveCounter = (function(){
+
+    let count = sessionStorage.getItem('counter') || 0;
+
+    return function (item) {
+      sessionStorage.setItem(count, item);
+      count++;
+      sessionStorage.setItem('counter', count);
+    }
+
+  })();
 
   function init(ymaps){
 
@@ -31,6 +43,7 @@ function initMapApi() {
 
       /*=== создание кластеризатора ===*/
       var clusterer = new ymaps.Clusterer({
+        preset: 'islands#invertedVioletClusterIcons',
         clusterDisableClickZoom: true,
         clusterOpenBalloonOnClick: true,
         clusterBalloonContentLayout: 'cluster#balloonCarousel',
@@ -42,22 +55,9 @@ function initMapApi() {
         groupByCoordinates: false
       });
 
-    /*=== сохраняем информацию о метках ===*/
-    const saveCounter = (function(){
-
-      let count = sessionStorage.getItem('counter') || 0;
-
-      return function (item) {
-        sessionStorage.setItem(count, item);
-        count++;
-        sessionStorage.setItem('counter', count)
-      }
-
-    })();
-
     /*=== достаем то, что сохранили в sessionStorage ===*/
     if (sessionStorage.getItem('0')) {
-      for (let i = 0; i < sessionStorage.length - 2; i++) {
+      for (var i = 0; i < sessionStorage.length - 1; i++) {
         let el = sessionStorage.getItem(i).split(',');
 
         let place = new ymaps.Placemark([
@@ -68,6 +68,7 @@ function initMapApi() {
         }, {
           openBalloonOnClick: false
         });
+
 
         places.push(place);
         clusterer.add(places);
@@ -116,6 +117,7 @@ function initMapApi() {
         document.querySelector('.popup-content').reset();
 
 
+
         let place = new ymaps.Placemark(ev.get('coords'), {
           balloonContentHeader: res,
           balloonContent: post.innerHTML
@@ -127,24 +129,13 @@ function initMapApi() {
           place.properties._data.balloonContent,
           place.properties._data.balloonContentHeader]);
 
-          places.push(place);
-          clusterer.add(places);
-          myMap.geoObjects.add(clusterer);
 
+        places.push(place);
+        clusterer.add(places);
+        myMap.geoObjects.add(clusterer);
       });
       moveForm(popupForm);
     }
-
-    /*=== вешаем событие клика по карте ===*/
-    myMap.events.add('click', function (ev) {
-      let coords = ev.get('coords');
-
-      ymaps.geocode(coords).then(function (res) {
-        feedback(res.geoObjects.get(0).properties._data.name, ev, 'Ни одного отзыва еще не было оставлено.');
-      })
-    });
-
-
 
     /*=== вешаем событие клика по геообъекту ===*/
     myMap.geoObjects.events.add('click', function (ev) {
@@ -162,7 +153,7 @@ function initMapApi() {
 
       } else {
 
-        if (myMap.balloon) {
+        if(myMap.balloon) {
           let result = '';
 
           for (let i = 0; i < items.length; i++) {
@@ -178,6 +169,16 @@ function initMapApi() {
           });
         }
       }
+    });
+
+
+    /*=== вешаем событие клика по карте ===*/
+    myMap.events.add('click', function (ev) {
+      let coords = ev.get('coords');
+
+      ymaps.geocode(coords).then(function (res) {
+        feedback(res.geoObjects.get(0).properties._data.name, ev, 'Ни одного отзыва еще не было оставлено.');
+      })
     });
   }
 }
